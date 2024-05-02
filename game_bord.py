@@ -1,19 +1,23 @@
 class Bord:
     bord = {'a1': '-', 'a2': '-', 'a3': '-', 'b1': '-', 'b2': '-', 'b3': '-', 'c1': '-', 'c2': '-', 'c3': '-', }
+    player_x_wins = 0
+    player_0_wins = 0
 
     def __init__(self):
         pass
 
-    def reset_bord(self):
-        self.bord = {'a1': '-', 'a2': '-', 'a3': '-', 'b1': '-', 'b2': '-', 'b3': '-', 'c1': '-', 'c2': '-',
-                     'c3': '-', }
+    @classmethod
+    def reset_bord(cls):
+        cls.bord = {'a1': '-', 'a2': '-', 'a3': '-', 'b1': '-', 'b2': '-', 'b3': '-', 'c1': '-', 'c2': '-',
+                    'c3': '-', }
 
+    @classmethod
+    def add_guess(cls, guess, player):
+        if cls.bord[guess] == '-':
+            cls.bord[guess] = player
 
-    def add_guess(self, guess, player):
-        if self.bord[guess] == '-':
-            self.bord[guess] = player
-
-    def test_winner(self):
+    @classmethod
+    def test_winner(cls):
         lines = [
             ['a1', 'a2', 'a3'],
             ['b1', 'b2', 'b3'],
@@ -24,17 +28,23 @@ class Bord:
             ['a1', 'b2', 'c3'],
             ['a3', 'b2', 'c1']]
         for i in lines:
-            if self.bord[i[0]] == self.bord[i[1]] == self.bord[i[2]] != '-':
-                return self.bord[i[0]]
+            if cls.bord[i[0]] == cls.bord[i[1]] == cls.bord[i[2]] != '-':
+                if cls.bord[i[0]] == 'X':
+                    cls.player_x_wins += 1
+                if cls.bord[i[0]] == '0':
+                    cls.player_0_wins += 1
+                return cls.bord[i[0]]
 
-    def print_game_bord(self):
+    @classmethod
+    def print_game_bord(cls):
         print("\tŽaidimo lenta.")
-        print("Rezultatas: X = 0\t0 = 0")
-        print(f'\t\t{self.bord['a1']} {self.bord['a2']} {self.bord['a3']}\n'
-              f'\t\t{self.bord['b1']} {self.bord['b2']} {self.bord['b3']}\n'
-              f'\t\t{self.bord['c1']} {self.bord['c2']} {self.bord['c3']}')
+        print(f"Rezultatas: X = {cls.player_x_wins}\t0 = {cls.player_0_wins}")
+        print(f'\t\t{cls.bord['a1']} {cls.bord['a2']} {cls.bord['a3']}\n'
+              f'\t\t{cls.bord['b1']} {cls.bord['b2']} {cls.bord['b3']}\n'
+              f'\t\t{cls.bord['c1']} {cls.bord['c2']} {cls.bord['c3']}')
 
-    def print_intro(self):
+    @classmethod
+    def print_intro(cls):
         print("Žaidimas Iksiukai - Nuliukai\n"
               "žaidimo lenta sudaryta tokiu būdu:\n"
               "\t\ta1 a2 a3\n"

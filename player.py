@@ -1,13 +1,18 @@
 class Player:
-    def __init__(self):
-        self.active_player = "X"
+    active_player = 'X'
 
-    def change_player(self):
-        if self.active_player == "X":
-            self.active_player = "0"
+    # def __init__(self):
+    #     self.active_player = "X"
+
+
+    @classmethod
+    def change_player(cls):
+        if cls.active_player == "X":
+            cls.active_player = "0"
         else:
-            self.active_player = "X"
+            cls.active_player = "X"
 
-    def get_active_player(self):
-        return self.active_player
+    @classmethod
+    def get_active_player(cls) -> str:
+        return cls.active_player
 
