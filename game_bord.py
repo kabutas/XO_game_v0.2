@@ -33,6 +33,7 @@ class Bord:
                     cls.player_x_wins += 1
                 if cls.bord[i[0]] == '0':
                     cls.player_0_wins += 1
+                print(f"Laimejo {cls.bord[i[0]]}")
                 return cls.bord[i[0]]
 
     @classmethod

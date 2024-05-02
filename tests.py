@@ -1,18 +1,13 @@
-import tkinter as tk
-from game_bord import Bord
-import player
-
-zaidimas = Bord
-player = player.Player
-my_font = ("Helvetica", 80)
-
-
 def rename_button(button, position):
-    button.config(text=player.get_active_player(), state='disabled')
+    button.config(text=active_player.get_player(), state='disabled')
     # change_player(active_player)
-    zaidimas.add_guess(position, player.get_active_player())
-    zaidimas.test_winner()
-    player.change_player()
+    game_board[position] = active_player.get_player()
+    print(game_board)
+    test_winner()
+    if active_player.get_player() == "X":
+        active_player.set_player_0()
+    else:
+        active_player.set_player_x()
 
 
 def start_game():
@@ -20,9 +15,10 @@ def start_game():
     game_loop()
 
 
-root = tk.Tk()
+my_font = ("Helvetica", 100)
 
-root.title("MANO GERIAUSIAS ZAIDIMAS")
+root = tk.Tk()
+root.title("MANO GERIAUSIAS ZAIDIMAAS")
 root.geometry("800x600")
 button_sp = tk.Button(root, text="Vienas žaidėjas prieš AI", width=20, command=start_game, font=("Helvetica", 30))
 button_mp = tk.Button(root, text="Du žaidėjai prie vieno PC", width=20, command=start_game, font=("Helvetica", 30))
@@ -34,8 +30,7 @@ button_quit.pack()
 
 def game_loop():
     game = tk.Tk()
-    game.title("MANO GERIAUSIAS ZAIDIMAS")
-    game.geometry('800x600')
+    game.title("MANO GERIAUSIAS ZAIDIMAAS")
 
     button_a1 = tk.Button(game, text="-", width=3, command=lambda: rename_button(button_a1, "a1"), font=my_font)
     button_a2 = tk.Button(game, text="-", width=3, command=lambda: rename_button(button_a2, "a2"), font=my_font)
@@ -60,35 +55,3 @@ def game_loop():
 
 
 root.mainloop()
-
-# game.print_intro()
-
-
-# def guess():
-#     return input(f"Spėja žaidėjas {player.get_active_player()}: ")
-
-#
-# def gamestart():
-#     game.reset_bord()
-#     while 1:
-#         game.print_game_bord()
-#         guess = input(f"Spėja žaidėjas {player.get_active_player()}: ")
-#         if guess in game.bord and game.bord[guess] == '-':
-#
-#             game.add_guess(guess, player.get_active_player())
-#         else:
-#             print("neteisingas spejimas, arba uzimtas langelis.")
-#
-#         if game.test_winner():
-#             print(f"Laimejo žaidėjas {player.get_active_player()}: ")
-#             # game.player_x_wins += 1
-#             break
-#         player.change_player()
-#
-#
-# gamestart()
-#
-# replay = input("Ar žaisime dar kartą? Y/N")
-#
-# if replay.lower() == 'y':
-#     gamestart()
