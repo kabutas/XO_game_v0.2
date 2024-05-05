@@ -1,10 +1,17 @@
+from tkinter import messagebox
 class Bord:
-    bord = {'a1': '-', 'a2': '-', 'a3': '-', 'b1': '-', 'b2': '-', 'b3': '-', 'c1': '-', 'c2': '-', 'c3': '-', }
+    bord = {'a1': '-', 'a2': '-', 'a3': '-', 'b1': '-', 'b2': '-', 'b3': '-', 'c1': '-', 'c2': '-', 'c3': '-'}
     player_x_wins = 0
     player_0_wins = 0
 
     def __init__(self):
         pass
+
+
+    @classmethod
+    def get_score(cls):
+        return f"Player X has {cls.player_x_wins} wins. Player 0 has {cls.player_0_wins} wins"
+
 
     @classmethod
     def reset_bord(cls):
@@ -33,8 +40,12 @@ class Bord:
                     cls.player_x_wins += 1
                 if cls.bord[i[0]] == '0':
                     cls.player_0_wins += 1
-                print(f"Laimejo {cls.bord[i[0]]}")
+                messagebox.showinfo("Congratulation", f"{cls.bord[i[0]]} is the winner!")
                 return cls.bord[i[0]]
+            if '-' not in cls.bord.values():
+                messagebox.showinfo("Tie", "Its A Tie!")
+                return "Tie"
+        return None
 
     @classmethod
     def print_game_bord(cls):

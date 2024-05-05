@@ -1,10 +1,6 @@
 class Player:
     active_player = 'X'
 
-    # def __init__(self):
-    #     self.active_player = "X"
-
-
     @classmethod
     def change_player(cls):
         if cls.active_player == "X":
@@ -15,4 +11,3 @@ class Player:
     @classmethod
     def get_active_player(cls) -> str:
         return cls.active_player
-
