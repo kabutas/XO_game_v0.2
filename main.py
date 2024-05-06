@@ -54,6 +54,7 @@ def game_loop(root):
             game.destroy()
             root.deiconify()
             zaidimas.reset_bord()
+            player.active_player = "X"
         else:
             player.change_player()
             if player.active_player == '0':
