@@ -7,11 +7,13 @@ import player
 zaidimas = Bord
 player = player.Player
 my_font = ("Helvetica", 60)
+test_list = zaidimas.win_con
 
 
 def start_game():
     root.withdraw()
     game_loop(root)
+
 
 def start_multiplayer():
     root.withdraw()
@@ -22,7 +24,6 @@ root = tk.Tk()
 
 root.title("MANO GERIAUSIAS ZAIDIMAS")
 
-# root.geometry("800x600")
 button_sp = tk.Button(root, text="One Player", width=20, command=start_game, font=("Helvetica", 30))
 button_mp = tk.Button(root, text="Two Players", width=20, command=start_multiplayer, font=("Helvetica", 30))
 button_quit = tk.Button(root, text="Quit Game", width=20, command=quit, font=("Helvetica", 30))
@@ -59,12 +60,31 @@ def game_loop(root):
                 ai_move()
 
     def ai_move():
-        empty_cells = [pos for pos, value in zaidimas.bord.items() if value == '-']
+        for win_combo in zaidimas.win_con:
+            ai_in_pos = [key for key, value in zaidimas.bord.items() if value == "O" and key in win_combo]
+            if len(ai_in_pos) == 2:
+                empty_cell = [key for key in win_combo if key not in ai_in_pos and zaidimas.bord[key] == "-"]
+                if empty_cell:
+                    position = empty_cell[0]
+                    rename_button(position)
+                    return
+
+        for win_combo in zaidimas.win_con:
+            opponent_in_pos = [key for key, value in zaidimas.bord.items() if value == "X" and key in win_combo]
+            if len(opponent_in_pos) == 2:
+                empty_cell = [key for key in win_combo if key not in opponent_in_pos and zaidimas.bord[key] == "-"]
+                if empty_cell:
+                    position = empty_cell[0]
+                    rename_button(position)
+                    return
+
+        empty_cells = [key for key, value in zaidimas.bord.items() if value == '-']
         if empty_cells:
             position = random.choice(empty_cells)
             rename_button(position)
 
     game.mainloop()
+
 
 def game_loop_multi(root):
     game_multi = tk.Tk()
@@ -77,7 +97,8 @@ def game_loop_multi(root):
     for row in range(3):
         for col in range(3):
             position = str(row) + str(col)
-            button = tk.Button(game_multi, text='-', width=3, command=lambda pos=position: rename_button(pos), font=my_font)
+            button = tk.Button(game_multi, text='-', width=3, command=lambda pos=position: rename_button(pos),
+                               font=my_font)
             button.grid(row=row + 1, column=col)
             button_dict[position] = button
 
@@ -90,14 +111,9 @@ def game_loop_multi(root):
             zaidimas.reset_bord()
         else:
             player.change_player()
-        #     if player.active_player == '0':
-        #         ai_move()
 
-    # def ai_move():
-    #     empty_cells = [pos for pos, value in zaidimas.bord.items() if value == '-']
-    #     if empty_cells:
-    #         position = random.choice(empty_cells)
-    #         rename_button(position)
 
     game_multi.mainloop()
+
+
 root.mainloop()
